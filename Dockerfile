@@ -2,15 +2,20 @@
 #
 # Author: gw0 [http://gw.tnode.com/] <gw.2016@tnode.com>
 
-FROM debian:stretch
+FROM debian:buster
 MAINTAINER gw0 [http://gw.tnode.com/] <gw.2016@tnode.com>
 
 # install debian packages
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update -qq \
- && apt-get install --no-install-recommends -y \
+
+RUN sed -i "s@http://deb.debian.org@http://mirrors.163.com@g" /etc/apt/sources.list
+RUN sed -i "s@http://security.debian.org@http://mirrors.163.com@g" /etc/apt/sources.list
+
+RUN apt-get update
+RUN apt-get install --no-install-recommends -y \
     cron \
-    getmail4 \
+    incron \
+    getmail \
     dovecot-imapd \
     dovecot-managesieved \
  && apt-get clean \
